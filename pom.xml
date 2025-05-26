@@ -114,13 +114,7 @@
       <version>${commons.io.version}</version>
     </dependency>
 
-    <!-- Custom internal module (placeholder) -->
-    <dependency>
-      <groupId>qa</groupId>
-      <artifactId>ai</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
-    </dependency>
-  </dependencies>
+   </dependencies>
 
   <build>
     <pluginManagement>
