@@ -114,9 +114,9 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${maven.surefire.version}</version>
         <configuration>
-          <suiteXmlFiles>
+          <!--<suiteXmlFiles>
             <suiteXmlFile>testng.xml</suiteXmlFile>
-          </suiteXmlFiles>
+          </suiteXmlFile-->s>
           <systemProperties>
             <property>
               <name>browser</name>
