@@ -8,58 +8,30 @@
   <artifactId>JenkinsProjectRoot</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>JenkinsProjectRoot</name>
-  <description>JenkinsProjectRoot</description>
+  <description>Selenium Java Automation Framework for Jenkins and GitHub Actions</description>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>21</maven.compiler.source>
     <maven.compiler.target>21</maven.compiler.target>
 
-    <!-- Dependency Versions -->
+    <!-- Core Testing Dependencies -->
     <selenium.version>4.31.0</selenium.version>
     <webdrivermanager.version>6.0.1</webdrivermanager.version>
-    <junit.version>4.13.2</junit.version>
-    <junit.jupiter.version>5.10.0</junit.jupiter.version>
     <testng.version>7.11.0</testng.version>
     <extentreports.version>5.1.2</extentreports.version>
+    
+    <!-- Utility Dependencies -->
     <apache.poi.version>5.4.1</apache.poi.version>
     <log4j.version>3.0.0-beta3</log4j.version>
     <commons.io.version>2.19.0</commons.io.version>
-    <versions.maven.plugin>2.16.2</versions.maven.plugin>
+    
+    <!-- Plugin Versions -->
+    <maven.surefire.version>3.1.2</maven.surefire.version>
+    <maven.compiler.version>3.11.0</maven.compiler.version>
   </properties>
 
   <dependencies>
-    <!-- JUnit 4 for legacy unit tests -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <!-- JUnit 5 (Jupiter) for modern unit testing -->
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-api</artifactId>
-      <version>${junit.jupiter.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <version>${junit.jupiter.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <!-- TestNG for BDD and test execution -->
-    <dependency>
-      <groupId>org.testng</groupId>
-      <artifactId>testng</artifactId>
-      <version>${testng.version}</version>
-      <scope>test</scope>
-    </dependency>
-
     <!-- Selenium WebDriver for browser automation -->
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
@@ -74,6 +46,13 @@
       <version>${webdrivermanager.version}</version>
     </dependency>
 
+    <!-- TestNG for test execution and parallel testing -->
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>${testng.version}</version>
+    </dependency>
+
     <!-- ExtentReports for rich test reports -->
     <dependency>
       <groupId>com.aventstack</groupId>
@@ -81,7 +60,7 @@
       <version>${extentreports.version}</version>
     </dependency>
 
-    <!-- Apache POI for reading/writing Excel files -->
+    <!-- Apache POI for Excel data-driven testing -->
     <dependency>
       <groupId>org.apache.poi</groupId>
       <artifactId>poi</artifactId>
@@ -94,12 +73,13 @@
       <version>${apache.poi.version}</version>
     </dependency>
 
-    <!-- Log4j 2 API and Core for logging support -->
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-api</artifactId>
-      <version>3.0.0-beta2</version>
-    </dependency>
+    <!-- Log4j for logging -->
+   <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
+<dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-api</artifactId>
+    <version>3.0.0-beta2</version>
+</dependency>
 
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
@@ -107,123 +87,113 @@
       <version>${log4j.version}</version>
     </dependency>
 
-    <!-- Apache Commons IO for file operations -->
+    <!-- Commons IO for file operations -->
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>${commons.io.version}</version>
     </dependency>
-
-   </dependencies>
+  </dependencies>
 
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>3.2.0</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>3.3.0</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.11.0</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.1.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>3.3.0</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-install-plugin</artifactId>
-          <version>3.1.0</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.1.0</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-
     <plugins>
-      <!-- Versions Maven Plugin: Show updates for dependencies and plugins -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>versions-maven-plugin</artifactId>
-        <version>${versions.maven.plugin}</version>
-        <configuration>
-          <generateBackupPoms>false</generateBackupPoms>
-          <rulesUri>file:///${project.basedir}/version-rules.xml</rulesUri>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>validate</phase>
-            <goals>
-              <goal>display-dependency-updates</goal>
-              <goal>display-plugin-updates</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <!-- Maven Enforcer Plugin: Enforce Java and Maven versions -->
+      <!-- Maven Compiler Plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-enforcer-plugin</artifactId>
-        <version>3.4.1</version>
-        <executions>
-          <execution>
-            <id>enforce-versions</id>
-            <goals>
-              <goal>enforce</goal>
-            </goals>
-            <configuration>
-              <rules>
-                <requireMavenVersion>
-                  <version>3.9.0</version>
-                </requireMavenVersion>
-                <requireJavaVersion>
-                  <version>21</version>
-                </requireJavaVersion>
-              </rules>
-            </configuration>
-          </execution>
-        </executions>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven.compiler.version}</version>
+        <configuration>
+          <source>21</source>
+          <target>21</target>
+        </configuration>
+      </plugin>
+
+      <!-- Maven Surefire Plugin for test execution -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven.surefire.version}</version>
+        <configuration>
+          <suiteXmlFiles>
+            <suiteXmlFile>testng.xml</suiteXmlFile>
+          </suiteXmlFiles>
+          <systemProperties>
+            <property>
+              <name>browser</name>
+              <value>${browser}</value>
+            </property>
+            <property>
+              <name>environment</name>
+              <value>${environment}</value>
+            </property>
+          </systemProperties>
+          <testFailureIgnore>false</testFailureIgnore>
+          <includes>
+            <include>**/*Test.java</include>
+            <include>**/*Tests.java</include>
+          </includes>
+          <excludes>
+            <exclude>**/BaseTest.java</exclude>
+          </excludes>
+        </configuration>
       </plugin>
     </plugins>
   </build>
 
   <profiles>
+    <!-- Browser Profiles for Cross-Browser Testing -->
     <profile>
-      <id>update-dependencies</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>versions-maven-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>update-dependencies</id>
-                <phase>validate</phase>
-                <goals>
-                  <goal>use-latest-versions</goal>
-                </goals>
-                <configuration>
-                  <excludes>
-                    <!-- Prevent specific dependencies from being auto-updated -->
-                    <!-- <exclude>qa:ai</exclude> -->
-                  </excludes>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
+      <id>chrome</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <browser>chrome</browser>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>firefox</id>
+      <properties>
+        <browser>firefox</browser>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>edge</id>
+      <properties>
+        <browser>edge</browser>
+      </properties>
+    </profile>
+
+    <!-- Environment Profiles -->
+    <profile>
+      <id>dev</id>
+      <properties>
+        <environment>dev</environment>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>staging</id>
+      <properties>
+        <environment>staging</environment>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>prod</id>
+      <properties>
+        <environment>prod</environment>
+      </properties>
+    </profile>
+
+    <!-- Headless execution for CI/CD -->
+    <profile>
+      <id>headless</id>
+      <properties>
+        <browser>chrome-headless</browser>
+      </properties>
     </profile>
   </profiles>
 
