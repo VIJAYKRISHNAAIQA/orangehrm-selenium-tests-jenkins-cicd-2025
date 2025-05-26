@@ -1,14 +1,14 @@
-name: Run Selenium TestNG Tests
+name: Selenium TestNG CI
 
 on:
   push:
-    branches: [main]
+    branches: [main]        # Runs on pushes to main branch
   pull_request:
-    branches: [main]
+    branches: [main]        # Runs on PRs targeting main
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  build-and-test:
+    runs-on: ubuntu-latest  # Use latest Ubuntu runner
 
     steps:
     - name: Checkout repository
@@ -27,7 +27,7 @@ jobs:
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-maven-
 
-    - name: Run tests with Maven (headless mode)
+    - name: Run Maven tests in headless mode
       env:
-        HEADLESS: "true"               # <-- This sets your environment variable to enable headless Chrome
+        HEADLESS: "true"     # This enables your headless Chrome in the test
       run: mvn test
